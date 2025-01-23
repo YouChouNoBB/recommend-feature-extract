@@ -3,4 +3,3 @@ build/*
 test*
 cmake-build-debug
 *.exe
-main.*
