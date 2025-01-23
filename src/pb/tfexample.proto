@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+//在线抽取返回数据
+message BatchSamples{
+    repeated Example value = 1;
+}
+
+message Example {
+    TFFeatures features = 1;
+}
+
+message TFFeatures {
+    map<string, TFFeature> feature = 1;
+}
+
+message TFFeature {
+    oneof kind {
+        TFBytesList bytes_list = 1;
+        TFFloatList float_list = 2;
+        TFInt64List int64_list = 3;
+    }
+}
+
+message TFBytesList {
+    repeated bytes value = 1;
+}
+
+message TFFloatList {
+    repeated float value = 1 [packed = true];
+}
+
+message TFInt64List {
+    repeated int64 value = 1 [packed = true];
+}

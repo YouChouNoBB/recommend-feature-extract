@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+//在线抽取传入数据
+message BatchFeatures{
+  repeated Features value=1;
+}
+
+message Features{
+  string key = 1;
+  map<string, Feature> value = 2;
+}
+
+message Feature{
+  oneof kind {
+    StrIntList str_int_list = 1;
+    StrFloatList str_float_list = 2;
+    IntIntList int_int_list = 3;
+    IntFloatList int_float_list = 4;
+    LongIntList long_int_list = 5;
+    LongFloatList long_float_list = 6;
+    StrList str_list = 7;
+    IntList int_list = 8;
+    LongList long_list = 9;
+    FloatList float_list = 10;
+    UserActionList user_action_list = 11;
+    RTUserActionList rt_user_action_list = 12;
+    ItemActionList item_action_list = 13;
+    string str_value = 14;
+    float float_value = 15;
+    int32 int_value = 16;
+    int64 long_value = 17;
+  }
+}
+
+message UserAction {
+  string item_id = 1; //可以是item也可以是tag
+  int64 first_time = 2;
+  int64 last_second_time = 3;
+  int64 last_time = 4;
+  int32 cnt = 5;
+}
+
+message StrInt{
+  string key = 1;
+  int32 value = 2;
+}
+
+message StrFloat{
+  string key = 1;
+  float value = 2;
+}
+
+message IntInt{
+  int32 key = 1;
+  int32 value = 2;
+}
+
+message IntFloat{
+  int32 key = 1;
+  float value = 2;
+}
+
+message LongFloat{
+  int64 key = 1;
+  float value = 2;
+}
+
+message LongInt{
+  int64 key = 1;
+  int32 value = 2;
+}
+
+message StrIntList{
+  repeated StrInt value = 1 ;
+}
+
+message StrFloatList{
+  repeated StrFloat value = 1 ;
+}
+
+message IntFloatList{
+  repeated IntFloat value = 1 ;
+}
+
+message IntIntList{
+  repeated IntInt value = 1 ;
+}
+
+message LongIntList{
+  repeated LongInt value = 1 ;
+}
+
+message LongFloatList{
+  repeated LongFloat value = 1 ;
+}
+
+message FloatList {
+  repeated float value = 1 [packed = true];
+}
+
+message LongList {
+  repeated int64 value = 1 [packed = true];
+}
+
+message IntList {
+  repeated int32 value = 1 [packed = true];
+}
+
+message StrList {
+  repeated string value = 1 ;
+}
+
+message UserActionList{
+  repeated UserAction value = 1 ;
+}
+
+message Item {
+  string item_id = 1; //可以是item也可以是tag
+  string collection_id = 2;
+  int64 store_id = 3;
+  int64 first_time = 4;
+  int64 last_second_time = 5;
+  int64 last_time = 6;
+  int64 cnt = 7;
+}
+
+//实时特征
+message RTUserActionList {
+  map<string, Item> items = 1;
+}
+
+//商品行为特征
+message ItemAction{
+  string event = 1;   //事件
+  string context = 2; //上下文,可以是场景，也可以是query
+  int32 cnt = 3;      //出现次数
+  int32 dist_cnt = 4; //用户去重次数
+  int32 click_cnt = 5;//曾经有过点击行为的用户，去重次数
+  int32 buy_cnt = 6;  //曾经有过购买行为的用户，去重次数
+  string date = 7;    //日期
+}
+
+message  ItemActionList{
+  repeated ItemAction value = 1;
+}
